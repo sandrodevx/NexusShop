@@ -1,0 +1,29 @@
+{
+  "name": "nexusshop",
+  "version": "1.0.0",
+  "description": "NexusShop - Premium E-commerce Platform",
+  "private": true,
+  "scripts": {
+    "dev": "cd apps/frontend && npm run dev",
+    "build": "cd apps/frontend && npm run build",
+    "preview": "cd apps/frontend && npm run preview",
+    "install-frontend": "cd apps/frontend && npm install",
+    "clean": "rm -rf apps/frontend/node_modules apps/frontend/dist"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "ecommerce",
+    "vite",
+    "tailwindcss",
+    "framer-motion",
+    "3d",
+    "modern"
+  ],
+  "author": "SandroDevX",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+} 

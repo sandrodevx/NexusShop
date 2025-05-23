@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: nexusshop
+      POSTGRES_USER: nexus_user
+      POSTGRES_PASSWORD: nexus_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./apps/backend/prisma/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    networks:
+      - nexusshop-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - nexusshop-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+      target: development
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://nexus_user:nexus_password@postgres:5432/nexusshop
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: nexusshop-super-secret-jwt-key-2024
+      STRIPE_SECRET_KEY: sk_test_...
+      AWS_S3_BUCKET: nexusshop-uploads
+      ALGOLIA_APP_ID: your_algolia_app_id
+      ALGOLIA_API_KEY: your_algolia_api_key
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/backend:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nexusshop-network
+
+  # Frontend React App
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+      target: development
+    environment:
+      NODE_ENV: development
+      VITE_API_URL: http://localhost:3001
+      VITE_STRIPE_PUBLISHABLE_KEY: pk_test_...
+      VITE_ALGOLIA_APP_ID: your_algolia_app_id
+      VITE_ALGOLIA_SEARCH_KEY: your_algolia_search_key
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - nexusshop-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  nexusshop-network:
+    driver: bridge 
