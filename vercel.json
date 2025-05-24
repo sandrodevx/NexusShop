@@ -2,7 +2,6 @@
   "buildCommand": "cd apps/frontend && npm install && npm run build",
   "outputDirectory": "apps/frontend/dist",
   "installCommand": "cd apps/frontend && npm install",
-  "devCommand": "cd apps/frontend && npm run dev",
   "framework": "vite",
   "rewrites": [
     {
@@ -12,11 +11,11 @@
   ],
   "headers": [
     {
-      "source": "/fonts/(.*)",
+      "source": "/service-worker.js",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },

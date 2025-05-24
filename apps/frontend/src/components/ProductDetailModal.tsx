@@ -12,8 +12,7 @@ import {
   Truck, 
   RotateCcw,
   ChevronLeft,
-  ChevronRight,
-  Play
+  ChevronRight
 } from 'lucide-react';
 import { Product } from '../data/products';
 import { Button } from './Button';
@@ -25,7 +24,6 @@ interface ProductDetailModalProps {
   onAddToCart: (product: Product, quantity: number, variant?: any) => void;
   onToggleWishlist: (product: Product) => void;
   isInWishlist: boolean;
-  relatedProducts?: Product[];
 }
 
 export function ProductDetailModal({
@@ -34,8 +32,7 @@ export function ProductDetailModal({
   onClose,
   onAddToCart,
   onToggleWishlist,
-  isInWishlist,
-  relatedProducts = []
+  isInWishlist
 }: ProductDetailModalProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
@@ -175,7 +172,7 @@ export function ProductDetailModal({
                 {/* Image Thumbnails */}
                 {currentImages.length > 1 && (
                   <div className="flex gap-2 p-4 overflow-x-auto">
-                    {currentImages.map((image, index) => (
+                    {currentImages.map((image: string, index: number) => (
                       <motion.button
                         key={index}
                         onClick={() => setSelectedImageIndex(index)}

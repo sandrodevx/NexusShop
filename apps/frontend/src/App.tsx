@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, User, Search, Heart, Star, Zap, TrendingUp, Package, Shield, Users } from 'lucide-react';
+import { ShoppingCart, User, Heart, Star, Zap, TrendingUp, Package, Shield, Users } from 'lucide-react';
 import { Button } from './components/Button';
 import { ProductCard } from './components/ProductCard';
 import { CategoryCard } from './components/CategoryCard';

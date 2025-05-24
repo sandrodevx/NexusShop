@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
-  Filter, 
   X, 
   ChevronDown, 
   Star, 
