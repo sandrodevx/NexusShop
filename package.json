@@ -5,8 +5,13 @@
   "private": true,
   "scripts": {
     "dev": "cd apps/frontend && npm run dev",
-    "build": "cd apps/frontend && npm run build",
+    "build": "cd apps/frontend && npm install && npm run build",
     "preview": "cd apps/frontend && npm run preview",
+    "lint": "cd apps/frontend && npm run lint",
+    "format": "cd apps/frontend && npm run format",
+    "format:check": "cd apps/frontend && npm run format:check",
+    "type-check": "cd apps/frontend && npm run type-check",
+    "test": "cd apps/frontend && npm run test",
     "install-frontend": "cd apps/frontend && npm install",
     "clean": "rm -rf apps/frontend/node_modules apps/frontend/dist"
   },
