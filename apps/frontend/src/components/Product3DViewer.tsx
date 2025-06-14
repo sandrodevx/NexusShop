@@ -118,7 +118,7 @@ function EnvironmentSelector({
           {environments.map((env) => (
             <Button
               key={env.id}
-              variant={currentEnv === env.id ? "primary" : "ghost"}
+              variant={currentEnv === env.id ? "neon" : "ghost"}
               size="sm"
               onClick={() => onEnvChange(env.id)}
               className="text-xs"

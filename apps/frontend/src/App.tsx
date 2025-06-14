@@ -378,7 +378,7 @@ function App() {
                 { icon: Users, label: 'Customers', value: '50K+' },
                 { icon: Shield, label: 'Secure', value: '100%' },
                 { icon: TrendingUp, label: 'Growth', value: '150%' },
-              ].map((stat, index) => (
+              ].map((stat) => (
                 <motion.div
                   key={stat.label}
                   className="cyber-card p-6 rounded-2xl text-center group hover-lift"
