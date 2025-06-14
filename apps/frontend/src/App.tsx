@@ -447,14 +447,25 @@ function App() {
         {/* Categories Section */}
         <motion.section 
           id="categories"
-          className="mb-16"
+          className="mb-20"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h2>
-            <p className="text-gray-600">Explore our diverse range of premium products</p>
+          <div className="text-center mb-12">
+            <motion.h2 
+              className="text-4xl md:text-5xl font-display font-bold mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
+              <span className="gradient-text">PRODUCT</span>
+              <br />
+              <span className="gradient-text-plasma">CATEGORIES</span>
+            </motion.h2>
+            <p className="text-xl text-cyber-300 font-medium max-w-2xl mx-auto">
+              Explore our diverse range of cutting-edge products across multiple categories
+            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -472,51 +483,65 @@ function App() {
         {/* Products Section */}
         <motion.section 
           id="products"
-          className="mb-16"
+          className="mb-20"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-12">
+            <motion.h2 
+              className="text-4xl md:text-5xl font-display font-bold mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
+              <span className="gradient-text">
+                {searchQuery ? (
+                  `SEARCH MATRIX`
+                ) : (
+                  selectedSection === 'featured' ? 'FEATURED TECH' :
+                  selectedSection === 'new' ? 'LATEST DROPS' :
+                  selectedSection === 'sale' ? 'CYBER DEALS' : 'FEATURED TECH'
+                )}
+              </span>
+            </motion.h2>
+            <p className="text-xl text-cyber-300 font-medium mb-8 max-w-3xl mx-auto">
               {searchQuery ? (
-                `Search Results for "${searchQuery}"`
+                `${searchResultsCount} results found in the digital marketplace`
               ) : (
-                selectedSection === 'featured' ? 'Featured Products' :
-                selectedSection === 'new' ? 'New Arrivals' :
-                selectedSection === 'sale' ? 'Products on Sale' : 'Featured Products'
-              )}
-            </h2>
-            <p className="text-gray-600 mb-6">
-              {searchQuery ? (
-                `Found ${searchResultsCount} result${searchResultsCount !== 1 ? 's' : ''}`
-              ) : (
-                'Discover our handpicked selection of premium items'
+                'Discover cutting-edge products powered by next-generation technology'
               )}
             </p>
             
             {/* Section Tabs - Hide when searching */}
             {!searchQuery && (
-              <div className="flex justify-center space-x-4 mb-8">
+              <div className="flex flex-wrap justify-center gap-4 mb-12">
                 {[
-                  { key: 'featured', label: 'Featured', icon: Star },
-                  { key: 'new', label: 'New Arrivals', icon: Package },
-                  { key: 'sale', label: 'On Sale', icon: TrendingUp },
-                ].map(({ key, label, icon: Icon }) => (
-                  <motion.button
+                  { key: 'featured', label: 'Featured', icon: Star, color: 'neon' },
+                  { key: 'new', label: 'New Arrivals', icon: Package, color: 'plasma' },
+                  { key: 'sale', label: 'On Sale', icon: TrendingUp, color: 'electric' },
+                ].map(({ key, label, icon: Icon, color }) => (
+                  <motion.div
                     key={key}
-                    onClick={() => setSelectedSection(key as any)}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all ${
-                      selectedSection === key
-                        ? 'bg-blue-500 text-white shadow-lg'
-                        : 'bg-white/60 text-gray-700 hover:bg-white/80'
-                    }`}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Icon className="h-4 w-4" />
-                    {label}
-                  </motion.button>
+                    <button
+                      onClick={() => setSelectedSection(key as any)}
+                      className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold font-heading text-lg transition-all duration-300 ${
+                        selectedSection === key
+                          ? `glass-dark border-2 ${
+                              color === 'neon' ? 'border-neon-400 text-neon-300 neon-glow' :
+                              color === 'plasma' ? 'border-plasma-400 text-plasma-300 neon-glow-pink' :
+                              'border-electric-400 text-electric-300 neon-glow-yellow'
+                            }`
+                          : 'glass text-cyber-300 border border-cyber-400/30 hover:border-cyber-300/50 hover:text-cyber-200'
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                      {label}
+                    </button>
+                  </motion.div>
                 ))}
               </div>
             )}
@@ -542,10 +567,24 @@ function App() {
                 />
               ))
             ) : (
-              <div className="col-span-full text-center py-12">
-                <Package className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
-                <p className="text-gray-500">Try adjusting your search or filters</p>
+              <div className="col-span-full text-center py-16">
+                <motion.div
+                  className="cyber-card p-12 rounded-2xl max-w-md mx-auto"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                >
+                  <motion.div
+                    animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <Package className="h-20 w-20 mx-auto text-cyber-400 mb-6" />
+                  </motion.div>
+                  <h3 className="text-2xl font-bold font-heading gradient-text mb-4">No Data Found</h3>
+                  <p className="text-cyber-300 font-medium">
+                    The search matrix returned empty results. Try recalibrating your filters.
+                  </p>
+                </motion.div>
               </div>
             )}
           </motion.div>
@@ -553,47 +592,73 @@ function App() {
 
         {/* Features Section */}
         <motion.section 
-          className="mb-16"
+          className="mb-20"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
         >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose NexusShop?</h2>
-            <p className="text-gray-600">Experience the future of online shopping</p>
+          <div className="text-center mb-16">
+            <motion.h2 
+              className="text-4xl md:text-5xl font-display font-bold mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+            >
+              <span className="gradient-text">NEXUS</span>
+              <br />
+              <span className="gradient-text-plasma">ADVANTAGES</span>
+            </motion.h2>
+            <p className="text-xl text-cyber-300 font-medium max-w-2xl mx-auto">
+              Experience next-generation shopping technology
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 icon: Shield,
-                title: "Secure Shopping",
-                description: "Your data is protected with enterprise-grade security and encryption."
+                title: "Quantum Security",
+                description: "Military-grade encryption with blockchain verification protects every transaction.",
+                color: "neon"
               },
               {
                 icon: Users,
-                title: "Expert Support",
-                description: "24/7 customer support from our team of shopping experts."
+                title: "Neural Support",
+                description: "AI-powered 24/7 assistance with human expertise when you need it most.",
+                color: "plasma"
               },
               {
                 icon: TrendingUp,
-                title: "Smart Features",
-                description: "AI-powered recommendations and smart cart technology for better shopping."
+                title: "Smart Matrix",
+                description: "Predictive algorithms and neural networks optimize your shopping experience.",
+                color: "electric"
               }
             ].map((feature, index) => (
               <motion.div
                 key={feature.title}
-                className="text-center p-8 bg-white/60 backdrop-blur-sm rounded-2xl border border-gray-200/50"
+                className="text-center p-8 cyber-card rounded-2xl hover-lift group"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.0 + index * 0.1 }}
-                whileHover={{ y: -5, scale: 1.02 }}
+                whileHover={{ y: -8, scale: 1.03 }}
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <feature.icon className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <motion.div 
+                  className={`w-20 h-20 cyber-border rounded-2xl flex items-center justify-center mx-auto mb-6 ${
+                    feature.color === 'neon' ? 'bg-gradient-to-br from-neon-500/20 to-neon-400/20' :
+                    feature.color === 'plasma' ? 'bg-gradient-to-br from-plasma-500/20 to-plasma-400/20' :
+                    'bg-gradient-to-br from-electric-500/20 to-electric-400/20'
+                  }`}
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                >
+                  <feature.icon className={`h-10 w-10 ${
+                    feature.color === 'neon' ? 'text-neon-400' :
+                    feature.color === 'plasma' ? 'text-plasma-400' :
+                    'text-electric-400'
+                  } group-hover:scale-110 transition-transform duration-300`} />
+                </motion.div>
+                <h3 className="text-2xl font-bold font-heading gradient-text mb-4">{feature.title}</h3>
+                <p className="text-cyber-300 font-medium leading-relaxed">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -601,31 +666,55 @@ function App() {
 
         {/* CTA Section */}
         <motion.section 
-          className="text-center bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-12 text-white"
+          className="relative text-center cyber-card rounded-3xl p-16 overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 1.2 }}
         >
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Shopping?</h2>
-          <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of satisfied customers and experience the future of e-commerce today.
-          </p>
-          <div className="flex justify-center space-x-4">
-            <Button 
-              variant="outline"
-              size="lg"
-              onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-white text-blue-600 border-white hover:bg-blue-50 px-8 py-3"
+          {/* Animated Background */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-neon-500/20 via-plasma-500/20 to-electric-500/20"
+            animate={{
+              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+            }}
+            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            style={{ backgroundSize: '200% 200%' }}
+          />
+          
+          <div className="relative z-10">
+            <motion.h2 
+              className="text-4xl md:text-5xl font-display font-bold mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.3 }}
             >
-              Browse Products
-            </Button>
-            <Button 
-              variant="primary"
-              size="lg"
-              className="bg-blue-700 hover:bg-blue-800 px-8 py-3"
-            >
-              Sign Up Now
-            </Button>
+              <span className="gradient-text">READY TO ENTER</span>
+              <br />
+              <span className="gradient-text-plasma">THE NEXUS?</span>
+            </motion.h2>
+            <p className="text-xl text-cyber-300 mb-12 max-w-3xl mx-auto font-medium">
+              Join thousands of digital pioneers and experience the future of commerce in the cyber marketplace
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <Button 
+                variant="neon"
+                size="lg"
+                glow
+                onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
+                className="min-w-48"
+              >
+                <ShoppingCart className="mr-2 h-5 w-5" />
+                Enter Matrix
+              </Button>
+              <Button 
+                variant="plasma"
+                size="lg"
+                className="min-w-48"
+              >
+                <User className="mr-2 h-5 w-5" />
+                Join Network
+              </Button>
+            </div>
           </div>
         </motion.section>
       </main>
@@ -652,24 +741,63 @@ function App() {
 
       {/* Footer */}
       <motion.footer 
-        className="bg-gray-900 text-white py-12 mt-16"
+        className="relative glass-dark py-16 mt-20 border-t border-neon-400/20 overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 1 }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg"></div>
-            <span className="text-xl font-bold">NexusShop</span>
-          </div>
-          <p className="text-gray-400 mb-4">
-            Premium e-commerce platform built with React 18, TypeScript, and TailwindCSS
+        {/* Grid Background */}
+        <div className="absolute inset-0 grid-bg opacity-30" />
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div 
+            className="flex items-center justify-center space-x-3 mb-6"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <motion.div 
+              className="relative w-12 h-12 cyber-border rounded-xl bg-gradient-to-br from-neon-500 to-electric-400 flex items-center justify-center"
+              animate={{ 
+                boxShadow: [
+                  '0 0 20px rgba(34, 197, 94, 0.3)',
+                  '0 0 40px rgba(34, 197, 94, 0.6)',
+                  '0 0 20px rgba(34, 197, 94, 0.3)',
+                ]
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Zap className="h-6 w-6 text-dark-900" />
+            </motion.div>
+            <div>
+              <span className="text-2xl font-display font-bold gradient-text">NexusShop</span>
+              <p className="text-xs text-cyber-400 font-medium">CYBER MARKETPLACE</p>
+            </div>
+          </motion.div>
+          
+          <p className="text-cyber-300 mb-8 font-medium max-w-2xl mx-auto">
+            Next-generation e-commerce platform powered by cutting-edge technology stack
           </p>
-          <div className="flex justify-center space-x-6 text-sm text-gray-500">
-            <span>🚀 Vite + SWC</span>
-            <span>🎨 TailwindCSS</span>
-            <span>📱 PWA Ready</span>
-            <span>🔒 Secure Auth</span>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+            {[
+              { icon: '🚀', label: 'Vite + SWC', desc: 'Lightning Fast' },
+              { icon: '🎨', label: 'TailwindCSS', desc: 'Modern Design' },
+              { icon: '📱', label: 'PWA Ready', desc: 'Mobile First' },
+              { icon: '🔒', label: 'Secure Auth', desc: 'Enterprise Grade' },
+            ].map((tech, index) => (
+              <motion.div
+                key={tech.label}
+                className="glass-dark p-4 rounded-xl border border-cyber-400/20 hover:border-neon-400/40 transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 1.2 + index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+              >
+                <div className="text-2xl mb-2">{tech.icon}</div>
+                <div className="text-sm font-bold text-neon-400 mb-1">{tech.label}</div>
+                <div className="text-xs text-cyber-400">{tech.desc}</div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </motion.footer>

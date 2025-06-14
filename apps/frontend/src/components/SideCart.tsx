@@ -101,7 +101,7 @@ export function SideCart({
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-dark-100/80 backdrop-blur-md z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -110,24 +110,41 @@ export function SideCart({
 
           {/* Cart Panel */}
           <motion.div
-            className="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col"
+            className="fixed right-0 top-0 h-full w-full max-w-md glass-dark shadow-2xl z-50 flex flex-col border-l border-neon-400/20"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <div className="flex items-center gap-3">
-                <ShoppingBag className="h-6 w-6 text-blue-600" />
-                <h2 className="text-xl font-semibold text-gray-900">
-                  Shopping Cart ({items.length})
-                </h2>
+            <div className="flex items-center justify-between p-6 border-b border-neon-400/20">
+              <div className="flex items-center gap-4">
+                <motion.div
+                  className="w-12 h-12 rounded-xl bg-gradient-to-br from-neon-500/20 to-neon-400/20 border border-neon-400/30 flex items-center justify-center"
+                  animate={{ 
+                    boxShadow: [
+                      '0 0 10px rgba(34, 197, 94, 0.3)',
+                      '0 0 20px rgba(34, 197, 94, 0.5)',
+                      '0 0 10px rgba(34, 197, 94, 0.3)',
+                    ]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <ShoppingBag className="h-6 w-6 text-neon-400" />
+                </motion.div>
+                <div>
+                  <h2 className="text-xl font-bold font-heading gradient-text">
+                    CYBER CART
+                  </h2>
+                  <p className="text-sm text-cyber-400 font-medium">
+                    {items.length} {items.length === 1 ? 'ITEM' : 'ITEMS'} LOADED
+                  </p>
+                </div>
               </div>
               <motion.button
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                whileHover={{ scale: 1.1 }}
+                className="p-3 glass-dark rounded-xl border border-cyber-400/30 hover:border-neon-400/50 text-cyber-300 hover:text-neon-400 transition-all duration-300"
+                whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
               >
                 <X className="h-5 w-5" />
@@ -142,11 +159,18 @@ export function SideCart({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <Package className="h-16 w-16 text-gray-300 mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Your cart is empty</h3>
-                  <p className="text-gray-500 mb-6">Add some products to get started!</p>
-                  <Button variant="primary" onClick={onClose}>
-                    Continue Shopping
+                  <motion.div
+                    animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <Package className="h-20 w-20 text-cyber-400 mb-6" />
+                  </motion.div>
+                  <h3 className="text-2xl font-bold font-heading gradient-text mb-4">CART MATRIX EMPTY</h3>
+                  <p className="text-cyber-300 mb-8 font-medium">
+                    Load some products into the digital marketplace!
+                  </p>
+                  <Button variant="neon" size="lg" glow onClick={onClose}>
+                    Continue Mission
                   </Button>
                 </motion.div>
               ) : (
@@ -159,15 +183,16 @@ export function SideCart({
                       return (
                         <motion.div
                           key={item.id}
-                          className="flex gap-4 p-4 bg-gray-50 rounded-xl"
+                          className="flex gap-4 p-4 cyber-card rounded-2xl border border-cyber-400/30"
                           initial={{ opacity: 0, x: 20 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: -20, height: 0 }}
                           transition={{ delay: index * 0.1 }}
                           layout
+                          whileHover={{ scale: 1.02, y: -2 }}
                         >
                           {/* Product Image */}
-                          <div className="w-16 h-16 rounded-lg overflow-hidden bg-white">
+                          <div className="w-18 h-18 rounded-xl overflow-hidden border border-neon-400/30 bg-dark-100">
                             <img
                               src={item.product.images[0]}
                               alt={item.product.name}
@@ -177,12 +202,12 @@ export function SideCart({
 
                           {/* Product Details */}
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-medium text-gray-900 truncate">
+                            <h3 className="font-bold text-cyber-100 truncate font-heading">
                               {item.product.name}
                             </h3>
-                            <p className="text-sm text-gray-500">{item.product.brand}</p>
+                            <p className="text-sm text-electric-400 font-medium">{item.product.brand}</p>
                             {item.variant && (
-                              <p className="text-sm text-gray-500">{item.variant.name}</p>
+                              <p className="text-sm text-plasma-400 font-medium">{item.variant.name}</p>
                             )}
                             
                             <div className="flex items-center justify-between mt-2">
