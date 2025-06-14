@@ -35,7 +35,7 @@ jobs:
       - name: 📥 Install frontend dependencies
         run: |
           cd apps/frontend
-          npm ci
+          npm install
 
       - name: 🔍 Lint code
         run: npm run lint
@@ -72,7 +72,7 @@ jobs:
       - name: 📥 Install frontend dependencies
         run: |
           cd apps/frontend
-          npm ci
+          npm install
 
       - name: 🧪 Run unit tests
         run: npm run test
@@ -100,7 +100,7 @@ jobs:
       - name: 📥 Install frontend dependencies
         run: |
           cd apps/frontend
-          npm ci
+          npm install
 
       - name: 🏗️ Build packages
         run: |
@@ -162,7 +162,7 @@ jobs:
       - name: 📥 Install frontend dependencies
         run: |
           cd apps/frontend
-          npm ci
+          npm install
 
       - name: 📥 Download build artifacts
         uses: actions/download-artifact@v3
@@ -210,7 +210,7 @@ jobs:
       - name: 📥 Install frontend dependencies
         run: |
           cd apps/frontend
-          npm ci
+          npm install
 
       - name: 📥 Download build artifacts
         uses: actions/download-artifact@v3
@@ -253,7 +253,7 @@ jobs:
         with:
           status: ${{ job.status }}
           channel: '#deployments'
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
           fields: repo,message,commit,author,action,eventName,ref,workflow
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} 
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        if: env.SLACK_WEBHOOK_URL != '' 
