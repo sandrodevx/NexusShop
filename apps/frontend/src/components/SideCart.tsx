@@ -210,39 +210,43 @@ export function SideCart({
                               <p className="text-sm text-plasma-400 font-medium">{item.variant.name}</p>
                             )}
                             
-                            <div className="flex items-center justify-between mt-2">
-                              <div className="flex items-center border border-gray-200 rounded-lg">
+                            <div className="flex items-center justify-between mt-3">
+                              <div className="flex items-center glass-dark border border-neon-400/30 rounded-xl">
                                 <motion.button
                                   onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                                  className="p-1 hover:bg-gray-100 transition-colors"
+                                  className="p-2 hover:bg-neon-500/20 text-cyber-300 hover:text-neon-400 transition-colors disabled:opacity-50"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                   disabled={item.quantity <= 1}
                                 >
-                                  <Minus className="h-3 w-3" />
+                                  <Minus className="h-4 w-4" />
                                 </motion.button>
-                                <span className="px-3 py-1 text-sm font-medium">{item.quantity}</span>
+                                <span className="px-4 py-2 text-sm font-bold text-cyber-100 font-mono">
+                                  {item.quantity}
+                                </span>
                                 <motion.button
                                   onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                                  className="p-1 hover:bg-gray-100 transition-colors"
+                                  className="p-2 hover:bg-neon-500/20 text-cyber-300 hover:text-neon-400 transition-colors disabled:opacity-50"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                   disabled={item.quantity >= item.product.stockCount}
                                 >
-                                  <Plus className="h-3 w-3" />
+                                  <Plus className="h-4 w-4" />
                                 </motion.button>
                               </div>
 
                               <div className="text-right">
-                                <p className="font-semibold text-gray-900">${itemTotal.toFixed(2)}</p>
+                                <p className="font-bold text-xl text-neon-400 font-mono">
+                                  ${itemTotal.toFixed(2)}
+                                </p>
                                 <motion.button
                                   onClick={() => onRemoveItem(item.id)}
-                                  className="text-red-500 hover:text-red-700 text-sm flex items-center gap-1 mt-1"
+                                  className="text-plasma-500 hover:text-plasma-400 text-sm flex items-center gap-1 mt-1 font-medium"
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}
                                 >
                                   <Trash2 className="h-3 w-3" />
-                                  Remove
+                                  DELETE
                                 </motion.button>
                               </div>
                             </div>
@@ -256,11 +260,16 @@ export function SideCart({
                   {items.length > 0 && (
                     <motion.button
                       onClick={onClearCart}
-                      className="w-full p-2 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-colors"
-                      whileHover={{ scale: 1.02 }}
+                      className="w-full p-3 text-sm font-bold text-plasma-400 hover:text-plasma-300 glass-dark border border-plasma-400/30 hover:border-plasma-400/50 rounded-xl transition-all duration-300"
+                      whileHover={{ scale: 1.02, y: -1 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      Clear All Items
+                      <motion.span
+                        animate={{ opacity: [0.7, 1, 0.7] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        PURGE ALL ITEMS
+                      </motion.span>
                     </motion.button>
                   )}
                 </div>
@@ -269,45 +278,59 @@ export function SideCart({
 
             {/* Cart Summary & Checkout */}
             {items.length > 0 && (
-              <div className="border-t border-gray-200 p-6 space-y-4">
+              <div className="border-t border-neon-400/20 p-6 space-y-5 bg-gradient-to-t from-dark-100/50 to-transparent">
                 {/* Coupon Code */}
                 <div>
-                  <div className="flex gap-2 mb-2">
+                  <div className="flex gap-3 mb-3">
                     <input
                       type="text"
-                      placeholder="Coupon code"
+                      placeholder="ENTER DISCOUNT CODE"
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
-                      className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 px-4 py-3 glass-dark border border-cyber-400/30 rounded-xl text-sm font-medium text-cyber-100 placeholder-cyber-400 focus:outline-none focus:ring-2 focus:ring-neon-400/50 focus:border-neon-400/50"
                     />
                     <Button
-                      variant="outline"
+                      variant="electric"
                       size="sm"
                       onClick={applyCoupon}
                       disabled={!couponCode.trim()}
-                      className="px-4"
+                      className="px-6"
                     >
-                      <Percent className="h-4 w-4 mr-1" />
-                      Apply
+                      <Percent className="h-4 w-4 mr-2" />
+                      APPLY
                     </Button>
                   </div>
 
                   {appliedCoupon && (
                     <motion.div
-                      className="flex items-center justify-between p-2 bg-green-50 border border-green-200 rounded-lg text-sm"
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      className="flex items-center justify-between p-3 glass-dark border border-neon-400/50 rounded-xl text-sm"
+                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                      animate={{ 
+                        opacity: 1, 
+                        scale: 1, 
+                        y: 0,
+                        boxShadow: [
+                          '0 0 10px rgba(34, 197, 94, 0.3)',
+                          '0 0 20px rgba(34, 197, 94, 0.5)',
+                          '0 0 10px rgba(34, 197, 94, 0.3)',
+                        ]
+                      }}
+                      transition={{ 
+                        boxShadow: { duration: 2, repeat: Infinity }
+                      }}
                     >
-                      <span className="text-green-700">
-                        🎉 {appliedCoupon.code} applied ({appliedCoupon.discount}% off)
+                      <span className="text-neon-400 font-bold">
+                        ⚡ {appliedCoupon.code} ACTIVATED ({appliedCoupon.discount}% OFF)
                       </span>
-                      <button
+                      <motion.button
                         onClick={removeCoupon}
-                        className="text-green-600 hover:text-green-800"
+                        className="text-plasma-400 hover:text-plasma-300"
                         aria-label="Remove coupon"
+                        whileHover={{ scale: 1.1, rotate: 90 }}
+                        whileTap={{ scale: 0.9 }}
                       >
                         <X className="h-4 w-4" />
-                      </button>
+                      </motion.button>
                     </motion.div>
                   )}
                 </div>
@@ -316,81 +339,116 @@ export function SideCart({
                 <div>
                   <motion.button
                     onClick={() => setShowGiftMessage(!showGiftMessage)}
-                    className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors"
-                    whileHover={{ scale: 1.02 }}
+                    className="flex items-center gap-3 text-sm text-plasma-400 hover:text-plasma-300 font-medium transition-colors"
+                    whileHover={{ scale: 1.02, x: 2 }}
                   >
-                    <Gift className="h-4 w-4" />
-                    {showGiftMessage ? 'Remove gift message' : 'Add gift message'}
+                    <motion.div
+                      animate={{ rotate: showGiftMessage ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Gift className="h-5 w-5" />
+                    </motion.div>
+                    {showGiftMessage ? 'REMOVE GIFT PROTOCOL' : 'ADD GIFT PROTOCOL'}
                   </motion.button>
 
                   <AnimatePresence>
                     {showGiftMessage && (
                       <motion.textarea
-                        className="w-full mt-2 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                        placeholder="Enter your gift message..."
+                        className="w-full mt-3 px-4 py-3 glass-dark border border-plasma-400/30 rounded-xl text-sm font-medium text-cyber-100 placeholder-cyber-400 focus:outline-none focus:ring-2 focus:ring-plasma-400/50 focus:border-plasma-400/50 resize-none"
+                        placeholder="ENTER GIFT MESSAGE PROTOCOL..."
                         value={giftMessage}
                         onChange={(e) => setGiftMessage(e.target.value)}
                         rows={3}
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0, height: 0, y: -10 }}
+                        animate={{ opacity: 1, height: 'auto', y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -10 }}
                       />
                     )}
                   </AnimatePresence>
                 </div>
 
                 {/* Order Summary */}
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Subtotal:</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                <div className="glass-dark p-4 rounded-xl border border-cyber-400/30 space-y-3">
+                  <h3 className="text-lg font-bold font-heading gradient-text mb-4">
+                    TRANSACTION BREAKDOWN
+                  </h3>
+                  
+                  <div className="flex justify-between text-cyber-200 font-medium">
+                    <span>SUBTOTAL:</span>
+                    <span className="font-mono text-electric-400">${subtotal.toFixed(2)}</span>
                   </div>
                   
                   {appliedCoupon && (
-                    <div className="flex justify-between text-green-600">
-                      <span>Discount ({appliedCoupon.code}):</span>
-                      <span>-${couponDiscount.toFixed(2)}</span>
-                    </div>
+                    <motion.div 
+                      className="flex justify-between text-neon-400 font-bold"
+                      animate={{ scale: [1, 1.02, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <span>DISCOUNT ({appliedCoupon.code}):</span>
+                      <span className="font-mono">-${couponDiscount.toFixed(2)}</span>
+                    </motion.div>
                   )}
                   
-                  <div className="flex justify-between">
-                    <span>Shipping:</span>
-                    <span>
+                  <div className="flex justify-between text-cyber-200 font-medium">
+                    <span>SHIPPING:</span>
+                    <span className="font-mono">
                       {shipping === 0 ? (
-                        <span className="text-green-600">FREE</span>
+                        <span className="text-neon-400 font-bold">FREE</span>
                       ) : (
-                        `$${shipping.toFixed(2)}`
+                        <span className="text-electric-400">${shipping.toFixed(2)}</span>
                       )}
                     </span>
                   </div>
                   
-                  <div className="flex justify-between">
-                    <span>Tax:</span>
-                    <span>${tax.toFixed(2)}</span>
+                  <div className="flex justify-between text-cyber-200 font-medium">
+                    <span>TAX:</span>
+                    <span className="font-mono text-electric-400">${tax.toFixed(2)}</span>
                   </div>
                   
-                  <div className="border-t border-gray-200 pt-2 flex justify-between font-semibold text-lg">
-                    <span>Total:</span>
-                    <span>${total.toFixed(2)}</span>
+                  <div className="border-t border-neon-400/30 pt-3 flex justify-between font-bold text-xl">
+                    <span className="gradient-text">TOTAL:</span>
+                    <span className="font-mono text-neon-400">${total.toFixed(2)}</span>
                   </div>
                 </div>
 
                 {/* Free Shipping Progress */}
                 {shipping > 0 && (
                   <motion.div
-                    className="p-3 bg-blue-50 border border-blue-200 rounded-lg"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 glass-dark border border-electric-400/50 rounded-xl"
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ 
+                      opacity: 1, 
+                      y: 0, 
+                      scale: 1,
+                      boxShadow: [
+                        '0 0 10px rgba(252, 211, 77, 0.3)',
+                        '0 0 20px rgba(252, 211, 77, 0.5)',
+                        '0 0 10px rgba(252, 211, 77, 0.3)',
+                      ]
+                    }}
+                    transition={{ 
+                      boxShadow: { duration: 2, repeat: Infinity }
+                    }}
                   >
-                    <div className="text-sm text-blue-700 mb-2">
-                      Add ${(100 - subtotal).toFixed(2)} more for FREE shipping! 🚚
+                    <div className="text-sm text-electric-400 font-bold mb-3">
+                      ⚡ Add ${(100 - subtotal).toFixed(2)} more for FREE SHIPPING! 🚀
                     </div>
-                    <div className="w-full bg-blue-200 rounded-full h-2">
+                    <div className="w-full bg-dark-100 rounded-full h-3 border border-electric-400/30">
                       <motion.div
-                        className="bg-blue-500 h-2 rounded-full"
+                        className="bg-gradient-to-r from-electric-500 to-electric-400 h-3 rounded-full"
                         initial={{ width: 0 }}
-                        animate={{ width: `${Math.min(100, (subtotal / 100) * 100)}%` }}
-                        transition={{ duration: 0.5 }}
+                        animate={{ 
+                          width: `${Math.min(100, (subtotal / 100) * 100)}%`,
+                          boxShadow: [
+                            '0 0 5px rgba(252, 211, 77, 0.5)',
+                            '0 0 15px rgba(252, 211, 77, 0.8)',
+                            '0 0 5px rgba(252, 211, 77, 0.5)',
+                          ]
+                        }}
+                        transition={{ 
+                          width: { duration: 0.5 },
+                          boxShadow: { duration: 1.5, repeat: Infinity }
+                        }}
                       />
                     </div>
                   </motion.div>
@@ -398,24 +456,25 @@ export function SideCart({
 
                 {/* Checkout Button */}
                 <Button
-                  variant="primary"
+                  variant="neon"
                   size="lg"
+                  glow
                   onClick={handleCheckout}
-                  className="w-full"
+                  className="w-full font-bold"
                 >
                   <CreditCard className="mr-2 h-5 w-5" />
-                  Proceed to Checkout
+                  INITIALIZE PAYMENT
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
 
                 {/* Continue Shopping */}
                 <Button
-                  variant="outline"
+                  variant="cyber"
                   size="lg"
                   onClick={onClose}
-                  className="w-full"
+                  className="w-full font-bold"
                 >
-                  Continue Shopping
+                  CONTINUE BROWSING
                 </Button>
               </div>
             )}
