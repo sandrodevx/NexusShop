@@ -29,8 +29,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📥 Install dependencies
+      - name: 📥 Install root dependencies
         run: npm ci
+
+      - name: 📥 Install frontend dependencies
+        run: |
+          cd apps/frontend
+          npm ci
 
       - name: 🔍 Lint code
         run: npm run lint
@@ -41,7 +46,9 @@ jobs:
         continue-on-error: true
 
       - name: 🔧 Type check
-        run: npm run type-check
+        run: |
+          cd apps/frontend
+          npm run type-check
 
   # 🧪 Tests
   test:
@@ -59,8 +66,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📥 Install dependencies
+      - name: 📥 Install root dependencies
         run: npm ci
+
+      - name: 📥 Install frontend dependencies
+        run: |
+          cd apps/frontend
+          npm ci
 
       - name: 🧪 Run unit tests
         run: npm run test
@@ -82,11 +94,18 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📥 Install dependencies
+      - name: 📥 Install root dependencies
         run: npm ci
 
+      - name: 📥 Install frontend dependencies
+        run: |
+          cd apps/frontend
+          npm ci
+
       - name: 🏗️ Build packages
-        run: npm run build
+        run: |
+          cd apps/frontend
+          npm run build
 
       - name: 📦 Upload build artifacts
         uses: actions/upload-artifact@v3
@@ -137,8 +156,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📥 Install dependencies
+      - name: 📥 Install root dependencies
         run: npm ci
+
+      - name: 📥 Install frontend dependencies
+        run: |
+          cd apps/frontend
+          npm ci
 
       - name: 📥 Download build artifacts
         uses: actions/download-artifact@v3
@@ -180,8 +204,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📥 Install dependencies
+      - name: 📥 Install root dependencies
         run: npm ci
+
+      - name: 📥 Install frontend dependencies
+        run: |
+          cd apps/frontend
+          npm ci
 
       - name: 📥 Download build artifacts
         uses: actions/download-artifact@v3
@@ -211,19 +240,20 @@ jobs:
           sleep 60
           curl -f https://nexusshop.vercel.app/health || exit 1
 
-  # 🔔 Notifications
+  # 📢 Notifications
   notify:
-    name: 🔔 Notifications
+    name: 📢 Notify
     runs-on: ubuntu-latest
     needs: [deploy-staging, deploy-production]
     if: always()
     
     steps:
-      - name: 🔔 Notify Slack
+      - name: 📢 Slack Notification
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: env.SLACK_WEBHOOK_URL != '' 
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} 

@@ -13,7 +13,8 @@ import {
   getFeaturedProducts, 
   getNewProducts, 
   getSaleProducts,
-  Product 
+  Product,
+  Category 
 } from './data/products';
 
 // Cart item interface
@@ -54,13 +55,13 @@ function App() {
 
   const addToCart = (product: Product, quantity: number = 1, variant?: any) => {
     const existingItemIndex = cartItems.findIndex(
-      item => item.product.id === product.id && 
+      (item: CartItem) => item.product.id === product.id && 
                JSON.stringify(item.variant) === JSON.stringify(variant)
     );
 
     if (existingItemIndex > -1) {
       // Update existing item quantity
-      setCartItems(prev => prev.map((item, index) => 
+      setCartItems((prev: CartItem[]) => prev.map((item: CartItem, index: number) => 
         index === existingItemIndex 
           ? { ...item, quantity: item.quantity + quantity }
           : item
@@ -74,7 +75,7 @@ function App() {
         variant,
         addedAt: new Date()
       };
-      setCartItems(prev => [...prev, newItem]);
+      setCartItems((prev: CartItem[]) => [...prev, newItem]);
     }
 
     console.log('Added to cart:', product.name, 'Quantity:', quantity, 'Variant:', variant?.name);
@@ -86,13 +87,13 @@ function App() {
       return;
     }
     
-    setCartItems(prev => prev.map(item => 
+    setCartItems((prev: CartItem[]) => prev.map((item: CartItem) => 
       item.id === itemId ? { ...item, quantity } : item
     ));
   };
 
   const removeFromCart = (itemId: string) => {
-    setCartItems(prev => prev.filter(item => item.id !== itemId));
+    setCartItems((prev: CartItem[]) => prev.filter((item: CartItem) => item.id !== itemId));
   };
 
   const clearCart = () => {
@@ -119,7 +120,7 @@ function App() {
     setSelectedProduct(null);
   };
 
-  const onCategoryClick = (category: any) => {
+  const onCategoryClick = (category: Category) => {
     console.log('Category clicked:', category.name);
     // You could implement category filtering here
   };
@@ -133,7 +134,7 @@ function App() {
     setSearchResultsCount(count);
   };
 
-  const cartItemsCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const cartItemsCount = cartItems.reduce((sum: number, item: CartItem) => sum + item.quantity, 0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyber-900 via-dark-50 to-cyber-800 grid-bg">
