@@ -82,10 +82,10 @@ export function CategoryCard({ category, onClick, index = 0 }: CategoryCardProps
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 + 0.4, duration: 0.6 }}
           >
-            <div className="glass-dark rounded-2xl p-6 border border-cyber-400/30 backdrop-blur-xl">
+            <div className="glass-dark rounded-2xl p-5 border border-cyber-400/30 backdrop-blur-xl">
               {/* Category Icon */}
               <motion.div
-                className={`w-14 h-14 rounded-xl mb-5 flex items-center justify-center ${
+                className={`w-12 h-12 rounded-xl mb-4 flex items-center justify-center ${
                   colorScheme === 'neon' ? 'bg-gradient-to-br from-neon-500/20 to-neon-400/20 border border-neon-400/30' :
                   colorScheme === 'plasma' ? 'bg-gradient-to-br from-plasma-500/20 to-plasma-400/20 border border-plasma-400/30' :
                   'bg-gradient-to-br from-electric-500/20 to-electric-400/20 border border-electric-400/30'
@@ -100,7 +100,7 @@ export function CategoryCard({ category, onClick, index = 0 }: CategoryCardProps
                 }`} />
               </motion.div>
 
-              <h3 className={`text-2xl font-bold font-heading mb-4 ${
+              <h3 className={`text-xl font-bold font-heading mb-3 line-clamp-2 ${
                 colorScheme === 'neon' ? 'text-neon-300 group-hover:text-neon-200' :
                 colorScheme === 'plasma' ? 'text-plasma-300 group-hover:text-plasma-200' :
                 'text-electric-300 group-hover:text-electric-200'
@@ -108,7 +108,7 @@ export function CategoryCard({ category, onClick, index = 0 }: CategoryCardProps
                 {category.name}
               </h3>
               
-              <p className="text-cyber-300 text-base mb-6 line-clamp-2 font-medium leading-relaxed">
+              <p className="text-cyber-300 text-sm mb-4 line-clamp-2 font-medium leading-relaxed">
                 {category.description}
               </p>
               
